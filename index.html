@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文化祭限定クイズラリー</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 { font-size: 24px; margin-bottom: 20px; letter-spacing: 2px; }
+        input[type="text"] {
+            width: 80%; padding: 12px; font-size: 18px; border: none;
+            border-radius: 8px; margin-bottom: 20px; text-align: center;
+        }
+        
+        button {
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            color: white; border: none; padding: 12px 30px; font-size: 18px;
+            font-weight: bold; border-radius: 25px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4); transition: 0.3s;
+        }
+        button:hover { transform: scale(1.05); }
+        
+        #result-area {
+            margin-top: 30px; padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2); display: none;
+        }
+        .success-msg { color: #4def91; font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+        
+        /* PDFを開くボタンのデザイン */
+        .btn-link {
+            display: inline-block;
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 25px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
+            transition: 0.3s;
+        }
+        .btn-link:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>任務だヨ！全員集合</h1>
+        <p>手に入れたパスワードを入力せよ</p>
+        
+        <input type="text" id="answer-input" placeholder="ここにパスワードを入力">
+        <br>
+        <button id="submit-btn" onclick="checkAnswer()">解読する</button>
+
+        <div id="result-area">
+            <div class="success-msg">🔓 解読成功！</div>
+            <div id="content-box"></div>
+        </div>
+    </div>
+
+    <script>
+        // 【設定】暗号データと、正解時に出すボタン
+        const quizData = {
+            "こうこう": `
+                <p>🎉 見事、暗号解読成功！ヒントが解放された！</p>
+                <a href="hint.pdf" class="btn-link" target="_blank">📄 ヒントを表示する</a>
+            `
+        };
+
+        function checkAnswer() {
+            const userInput = document.getElementById("answer-input").value.trim();
+            const resultArea = document.getElementById("result-area");
+            const contentBox = document.getElementById("content-box");
+
+            if (userInput in quizData) {
+                // 正解画面とPDFへ飛ぶボタンを表示（何度でも入力・表示が可能）
+                contentBox.innerHTML = quizData[userInput];
+                resultArea.style.display = "block";
+                resultArea.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("パスワードが正しくありません。もう一度確かめてください。");
+                resultArea.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
